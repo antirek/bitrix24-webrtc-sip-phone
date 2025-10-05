@@ -1,0 +1,21 @@
+{
+  "name": "widget",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "vite": "^7.1.7",
+    "vite-plugin-singlefile": "^2.3.0"
+  },
+  "dependencies": {
+    "@bitrix24/b24jssdk": "^0.4.9"
+  }
+}

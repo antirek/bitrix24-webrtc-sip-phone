@@ -1,0 +1,113 @@
+services:
+  vault:
+    image: hashicorp/vault:1.20
+    container_name: vault
+    restart: on-failure:10
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_ADDR: 'http://0.0.0.0:8200'
+      VAULT_DEV_ROOT_TOKEN_ID: '00000000-0000-0000-0000-000000000000'
+      VAULT_TOKEN: '00000000-0000-0000-0000-000000000000'
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-volume:/data
+    healthcheck:
+      test: ["CMD", "vault", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    command: server -dev -dev-root-token-id="00000000-0000-0000-0000-000000000000"
+    networks:
+      - app-network
+
+  vault-init:
+    image: alpine:3.19
+    container_name: vault-init
+    environment:
+      VAULT_ADDR: 'http://vault:8200'
+      VAULT_TOKEN: '00000000-0000-0000-0000-000000000000'
+    volumes:
+      - ./vault/init-vault.sh:/init-vault.sh:ro
+      - vault-creds:/creds
+    depends_on:
+      vault:
+        condition: service_healthy
+    command: ["sh", "/init-vault.sh"]
+    restart: "no"
+    networks:
+      - app-network
+    
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: app_db
+      POSTGRES_PASSWORD: 000000-00000000
+      PGDATA: /var/lib/postgresql/data/pgdata
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_db -d app_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    restart: unless-stopped
+    command: sh -c "sleep 60 && node dist/main.js"
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    volumes:
+      - vault-creds:/creds
+      - ./static:/public
+    depends_on:
+      postgres:
+        condition: service_healthy
+      vault:
+        condition: service_healthy
+    networks:
+    - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/cert:ro
+    env_file:
+      - .env
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  vault-volume:
+  vault-creds:
+  caddy_data:
+  caddy_config:
+
+networks:
+  app-network:
+    driver: bridge

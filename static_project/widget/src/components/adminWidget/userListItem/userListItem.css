@@ -1,0 +1,162 @@
+/* userListItem.css */
+/* Стили для компонента User List Item */
+.uli_user-card {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.uli_user-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.uli_user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.uli_user-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.uli_user-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.uli_user-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.uli_status-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.uli_edit-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    padding: 6px;
+    cursor: pointer;
+    color: white;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.uli_edit-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.uli_save-btn {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.uli_save-btn:hover {
+    background: rgba(76, 175, 80, 0.4);
+}
+
+.uli_user-details {
+    padding: 20px;
+}
+
+.uli_detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.uli_detail-item:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.uli_detail-label {
+    font-weight: 600;
+    color: #555;
+    min-width: 120px;
+    margin-right: 16px;
+}
+
+.uli_detail-value {
+    color: #333;
+    flex: 1;
+}
+
+.uli_input-fields {
+    flex: 1;
+    padding: 8px 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+}
+
+.uli_input-fields:focus {
+    outline: none;
+    border-color: #667eea;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.uli_detail-item:focus-within {
+    border-bottom-color: #667eea;
+}
+
+/* Анимация для переключения между режимами */
+.uli_detail-item {
+    transition: all 0.3s ease;
+}
+
+.uli_status-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.uli_status-active {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.uli_status-active:hover {
+    background: rgba(76, 175, 80, 0.4);
+}
+
+.uli_status-inactive {
+    background: rgba(244, 67, 54, 0.3);
+}
+
+.uli_status-inactive:hover {
+    background: rgba(244, 67, 54, 0.4);
+}
