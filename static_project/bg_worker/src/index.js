@@ -49,11 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             window.br_worker_store.callId = callID;
 
-            b24.callBatch({
-                changeTitle: { method: "CallCardSetCardTitle", params: { title: phone } },
-                changeStatus: { method: "CallCardSetStatusText", params: { statusText: 'SIPjs WebRTC phone' } },
-                changeState: { method: "CallCardSetUiState", params: { uiState: 'connected' } },
-            })
+            b24.placement.call("CallCardSetCardTitle", { title: phone });
+            b24.placement.call("CallCardSetStatusText", { statusText: 'SIPjs WebRTC phone'});
+            b24.placement.call("CallCardSetUiState", { uiState: 'connected' });
         });
 
         b24.placement.bindEvent("BackgroundCallCard::muteButtonClick", () => {
